@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
+<?xml version="1.0" encoding="utf-8"?><!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-<org.mozilla.fenix.perf.SearchDialogFragmentConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<org.mozilla.fenix.perf.SearchDialogFragmentConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/search_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/scrimBackground">
+    android:background="?attr/layer1">
     <mozilla.components.browser.toolbar.BrowserToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -19,7 +17,6 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed"
         app:browserToolbarClearColor="?attr/textPrimary"
         app:browserToolbarInsecureColor="?attr/textPrimary"
         app:browserToolbarMenuColor="?attr/textPrimary"
@@ -28,7 +25,8 @@
         app:browserToolbarTrackingProtectionAndSecurityIndicatorSeparatorColor="?borderPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed" />
 
     <ViewStub
         android:id="@+id/search_suggestions_hint"
@@ -57,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="awesome_bar,pill_wrapper"/>
+        app:constraint_referenced_ids="awesome_bar,pill_wrapper" />
 
     <org.mozilla.fenix.search.awesomebar.AwesomeBarWrapper
         android:id="@+id/awesome_bar"
@@ -67,7 +65,6 @@
         android:fadingEdgeLength="40dp"
         android:nestedScrollingEnabled="false"
         android:requiresFadingEdge="vertical"
-        android:background="?attr/layer1"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/pill_wrapper"
         app:layout_constraintEnd_toEndOf="parent"

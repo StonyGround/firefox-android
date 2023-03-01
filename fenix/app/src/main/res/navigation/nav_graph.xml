@@ -45,6 +45,7 @@
     <action
         android:id="@+id/action_global_search_dialog"
         app:destination="@id/searchDialogFragment"
+        app:enterAnim="@anim/slide_in_right"
         app:popUpTo="@id/searchDialogFragment"
         app:popUpToInclusive="true" />
 
@@ -180,8 +181,7 @@
 
     <fragment
         android:id="@+id/startupFragment"
-        android:name="org.mozilla.fenix.StartupFragment">
-    </fragment>
+        android:name="org.mozilla.fenix.StartupFragment"></fragment>
 
     <fragment
         android:id="@+id/homeFragment"
@@ -302,8 +302,7 @@
     <dialog
         android:id="@+id/historySearchDialogFragment"
         android:name="org.mozilla.fenix.library.history.HistorySearchDialogFragment"
-        tools:layout="@layout/fragment_history_search_dialog">
-    </dialog>
+        tools:layout="@layout/fragment_history_search_dialog"></dialog>
 
     <fragment
         android:id="@+id/historyMetadataGroupFragment"
@@ -348,8 +347,7 @@
     <dialog
         android:id="@+id/bookmarkSearchDialogFragment"
         android:name="org.mozilla.fenix.library.bookmarks.BookmarkSearchDialogFragment"
-        tools:layout="@layout/fragment_bookmark_search_dialog">
-    </dialog>
+        tools:layout="@layout/fragment_bookmark_search_dialog"></dialog>
 
     <fragment
         android:id="@+id/bookmarkEditFragment"
@@ -386,8 +384,8 @@
         <argument
             android:name="hideFolderGuid"
             android:defaultValue="@null"
-            app:nullable="true"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -704,12 +702,10 @@
     </fragment>
     <dialog
         android:id="@+id/profilerStartDialogFragment"
-        android:name="org.mozilla.fenix.perf.ProfilerStartDialogFragment">
-    </dialog>
+        android:name="org.mozilla.fenix.perf.ProfilerStartDialogFragment"></dialog>
     <dialog
         android:id="@+id/profilerStopDialogFragment"
-        android:name="org.mozilla.fenix.perf.ProfilerStopDialogFragment">
-    </dialog>
+        android:name="org.mozilla.fenix.perf.ProfilerStopDialogFragment"></dialog>
     <fragment
         android:id="@+id/tabsSettingsFragment"
         android:name="org.mozilla.fenix.settings.TabsSettingsFragment"
@@ -729,7 +725,7 @@
     <fragment
         android:id="@+id/wallpaperSettingsFragment"
         android:name="org.mozilla.fenix.settings.wallpaper.WallpaperSettingsFragment"
-        android:label="@string/customize_wallpapers"/>
+        android:label="@string/customize_wallpapers" />
     <fragment
         android:id="@+id/dataChoicesFragment"
         android:name="org.mozilla.fenix.settings.DataChoicesFragment"

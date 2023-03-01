@@ -72,8 +72,6 @@ import mozilla.components.support.ktx.kotlinx.coroutines.flow.ifAnyChanged
 import mozilla.components.support.ktx.kotlinx.coroutines.flow.ifChanged
 import mozilla.components.ui.autocomplete.InlineAutocompleteEditText
 import org.mozilla.fenix.BrowserDirection
-import org.mozilla.fenix.GleanMetrics.Awesomebar
-import org.mozilla.fenix.GleanMetrics.VoiceSearch
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
 import org.mozilla.fenix.components.Core.Companion.BOOKMARKS_SEARCH_ENGINE_ID
@@ -103,7 +101,8 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
     private var _binding: FragmentSearchDialogBinding? = null
     private val binding get() = _binding!!
 
-    @VisibleForTesting internal lateinit var interactor: SearchDialogInteractor
+    @VisibleForTesting
+    internal lateinit var interactor: SearchDialogInteractor
     private lateinit var store: SearchDialogFragmentStore
     private lateinit var toolbarView: ToolbarView
     private lateinit var inlineAutocompleteEditText: InlineAutocompleteEditText
@@ -268,17 +267,13 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         when (getPreviousDestination()?.destination?.id) {
             R.id.homeFragment -> {
                 // When displayed above home, dispatches the touch events to scrim area to the HomeFragment
-                binding.searchWrapper.background = ColorDrawable(Color.TRANSPARENT)
                 dialog?.window?.decorView?.setOnTouchListener { _, event ->
                     when (event?.action) {
                         MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                            isPrivateButtonClicked = isTouchingPrivateButton(event.x, event.y)
+                            isPrivateButtonClicked = isTouchingPrivateButton()
                         }
                         MotionEvent.ACTION_UP -> {
-                            if (!isTouchingPrivateButton(
-                                    event.x,
-                                    event.y,
-                                ) && !isPrivateButtonClicked
+                            if (!isTouchingPrivateButton() && !isPrivateButtonClicked
                             ) {
                                 findNavController().popBackStack()
                                 isPrivateButtonClicked = false
@@ -372,7 +367,9 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         binding.qrScanButton.increaseTapArea(TAP_INCREASE_DPS)
 
         binding.qrScanButton.setOnClickListener {
-            if (!requireContext().hasCamera()) { return@setOnClickListener }
+            if (!requireContext().hasCamera()) {
+                return@setOnClickListener
+            }
             view.hideKeyboard()
             toolbarView.view.clearFocus()
 
@@ -392,7 +389,6 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         }
 
         binding.fillLinkFromClipboard.setOnClickListener {
-            Awesomebar.clipboardSuggestionClicked.record(NoExtras())
             val clipboardUrl = requireContext().components.clipboardHandler.extractURL() ?: ""
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -496,11 +492,8 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         }
     }
 
-    private fun isTouchingPrivateButton(x: Float, y: Float): Boolean {
-        val view = parentFragmentManager.primaryNavigationFragment?.view?.findViewInHierarchy {
-            it.id == R.id.privateBrowsingButton
-        } ?: return false
-        return view.getRectWithScreenLocation().contains(x.toInt(), y.toInt())
+    private fun isTouchingPrivateButton(): Boolean {
+        return false
     }
 
     private fun hideClipboardSection() {
@@ -544,8 +537,8 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
     private fun observeClipboardState() = consumeFlow(store) { flow ->
         flow.map { state ->
             val shouldShowView = state.showClipboardSuggestions &&
-                state.query.isEmpty() &&
-                state.clipboardHasUrl && !state.showSearchShortcuts
+                    state.query.isEmpty() &&
+                    state.clipboardHasUrl && !state.showSearchShortcuts
             Pair(shouldShowView, state.clipboardHasUrl)
         }
             .ifChanged()
@@ -756,8 +749,8 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
     private fun updateSearchSuggestionsHintVisibility(state: SearchFragmentState) {
         view?.apply {
             val showHint = state.showSearchSuggestionsHint &&
-                !state.showSearchShortcuts &&
-                state.url != state.query
+                    !state.showSearchShortcuts &&
+                    state.url != state.query
 
             binding.searchSuggestionsHint.isVisible = showHint
             binding.searchSuggestionsHintDivider.isVisible = showHint
@@ -833,9 +826,10 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         // the voice button will still be available and *will* cause a crash if tapped,
         // since the `visible` call is only checked on create. In order to avoid extra complexity
         // around such a small edge case, we make the button have no functionality in this case.
-        if (!isSpeechAvailable()) { return }
+        if (!isSpeechAvailable()) {
+            return
+        }
 
-        VoiceSearch.tapped.record(NoExtras())
         speechIntent.apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_PROMPT, requireContext().getString(R.string.voice_search_explainer))
