@@ -109,7 +109,9 @@ class BrowserToolbar @JvmOverloads constructor(
 
     override var title: String
         get() = display.title
-        set(value) { display.title = value }
+        set(value) {
+            display.title = value
+        }
 
     override var url: CharSequence
         get() = display.url.toString()
@@ -122,7 +124,9 @@ class BrowserToolbar @JvmOverloads constructor(
 
     override var siteSecure: Toolbar.SiteSecurity
         get() = display.siteSecurity
-        set(value) { display.siteSecurity = value }
+        set(value) {
+            display.siteSecurity = value
+        }
 
     override var highlight: Highlight = Highlight.NONE
         set(value) {
@@ -143,7 +147,9 @@ class BrowserToolbar @JvmOverloads constructor(
 
     override var private: Boolean
         get() = edit.private
-        set(value) { edit.private = value }
+        set(value) {
+            edit.private = value
+        }
 
     /**
      * Registers the given listener to be invoked when the user edits the URL.
@@ -404,7 +410,7 @@ class BrowserToolbar @JvmOverloads constructor(
         }
     }
 
-    private fun updateState(state: State) {
+    public fun updateState(state: State) {
         this.state = state
 
         val (show, hide) = when (state) {
@@ -422,7 +428,7 @@ class BrowserToolbar @JvmOverloads constructor(
         hide.visibility = View.GONE
     }
 
-    private enum class State {
+    public enum class State {
         DISPLAY,
         EDIT,
     }
