@@ -882,6 +882,7 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
         requestDesktopMode: Boolean = false,
         historyMetadata: HistoryMetadataKey? = null,
     ) {
+
         openToBrowser(from, customTabSessionId)
         load(searchTermOrURL, newTab, engine, forceSearch, flags, requestDesktopMode, historyMetadata)
     }

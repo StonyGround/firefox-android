@@ -284,10 +284,10 @@ class Settings(private val appContext: Context) : PreferencesHolder {
 
     val isCrashReportingEnabled: Boolean
         get() = isCrashReportEnabledInBuild &&
-            preferences.getBoolean(
-                appContext.getPreferenceKey(R.string.pref_key_crash_reporter),
-                true,
-            )
+                preferences.getBoolean(
+                    appContext.getPreferenceKey(R.string.pref_key_crash_reporter),
+                    true,
+                )
 
     val isRemoteDebuggingEnabled by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_remote_debugging),
@@ -580,7 +580,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
     @VisibleForTesting
     internal val timerForCookieBannerDialog: Long
         get() = 60 * 60 * 1000L *
-            (cookieBannersSection[CookieBannersSection.DIALOG_RE_ENGAGE_TIME] ?: 4)
+                (cookieBannersSection[CookieBannersSection.DIALOG_RE_ENGAGE_TIME] ?: 4)
 
     /**
      * Indicates if we should should show the cookie banner dialog that invites the user to turn-on
@@ -591,7 +591,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
             shouldShowCookieBannerUI && !userOptOutOfReEngageCookieBannerDialog && !shouldUseCookieBanner
         return if (shouldShowDialog) {
             !cookieBannerDetectedPreviously ||
-                timeNowInMillis() - lastInteractionWithReEngageCookieBannerDialogInMs >= timerForCookieBannerDialog
+                    timeNowInMillis() - lastInteractionWithReEngageCookieBannerDialogInMs >= timerForCookieBannerDialog
         } else {
             false
         }
@@ -826,11 +826,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
         default = true,
     )
 
-    var shouldUseBottomToolbar by booleanPreference(
-        appContext.getPreferenceKey(R.string.pref_key_toolbar_bottom),
-        // Default accessibility users to top toolbar
-        default = !touchExplorationIsEnabled && !switchServiceIsEnabled,
-    )
+    var shouldUseBottomToolbar = false
 
     val toolbarPosition: ToolbarPosition
         get() = if (shouldUseBottomToolbar) ToolbarPosition.BOTTOM else ToolbarPosition.TOP
@@ -996,8 +992,8 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      */
     fun shouldShowInactiveTabsAutoCloseDialog(numbersOfTabs: Int): Boolean {
         return !hasInactiveTabsAutoCloseDialogBeenDismissed &&
-            numbersOfTabs >= INACTIVE_TAB_MINIMUM_TO_SHOW_AUTO_CLOSE_DIALOG &&
-            !closeTabsAfterOneMonth
+                numbersOfTabs >= INACTIVE_TAB_MINIMUM_TO_SHOW_AUTO_CLOSE_DIALOG &&
+                !closeTabsAfterOneMonth
     }
 
     /**
